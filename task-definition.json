@@ -1,0 +1,22 @@
+{
+  "family": "edulearn-task",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "edulearn-container",
+      "image": "478644803180.dkr.ecr.us-east-1.amazonaws.com/edulearn-repo:latest",
+      "cpu": 256,
+      "memory": 512,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000
+        }
+      ]
+    }
+  ],
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512"
+}
