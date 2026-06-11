@@ -1,1 +1,138 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EduLearn</title>
+ 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+ 
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+ 
+        nav {
+            background: #34495e;
+            padding: 10px;
+            text-align: center;
+        }
+ 
+        nav button {
+            margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            background: #1abc9c;
+            color: white;
+            cursor: pointer;
+        }
+ 
+        nav button:hover {
+            background: #16a085;
+        }
+ 
+        .container {
+            padding: 20px;
+        }
+ 
+        .card {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+ 
+        input, button {
+            padding: 10px;
+            margin: 5px;
+        }
+    </style>
+</head>
+ 
+<body>
+ 
+<header>
+    <h1>EduLearn Platform</h1>
+</header>
+ 
+<nav>
+    <button onclick="loadCourses()">View Courses</button>
+    <button onclick="showAddForm()">Add Course</button>
+</nav>
+ 
+<div class="container">
+    <div id="content"></div>
+</div>
+ 
+<script>
+// Replace this with your API Gateway invoke URL
+const API_URL = "https://<api-id>.execute-api.us-east-2.amazonaws.com/prod/api/courses";
+ 
+// Load courses from API
+function loadCourses() {
+    fetch(API_URL)
+        .then(res => res.json())
+        .then(data => {
+            let html = "<h2>Courses</h2>";
+            data.forEach(course => {
+                html += `
+                    <div class="card">
+                        <h3>${course.title}</h3>
+                        <p>${course.description}</p>
+                        <button onclick="deleteCourse('${course.id}')">Delete</button>
+                    </div>
+                `;
+            });
+            document.getElementById("content").innerHTML = html;
+        })
+        .catch(() => {
+            document.getElementById("content").innerHTML = "Error loading courses.";
+        });
+}
+ 
+// Show add form
+function showAddForm() {
+    document.getElementById("content").innerHTML = `
+        <h2>Add Course</h2>
+        <input id="title" placeholder="Course Title">
+        <input id="desc" placeholder="Description">
+        <button onclick="addCourse()">Add</button>
+    `;
+}
+ 
+// Add course
+function addCourse() {
+    fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: document.getElementById("title").value,
+            description: document.getElementById("desc").value
+        })
+    })
+    .then(() => {
+        loadCourses();
+    });
+}
+ 
+// Delete course
+function deleteCourse(id) {
+    fetch(API_URL + "/" + id, {
+        method: "DELETE"
+    })
+    .then(() => {
+        loadCourses();
+    });
+}
+</script>
+ 
+</body>
+</html>
