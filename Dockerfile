@@ -1,12 +1,13 @@
-FROM node:18
+FROM nginx:alpine
 
-WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+RUN rm -rf /usr/share/nginx/html/*
 
-COPY . .
 
-EXPOSE 3000
+COPY . /usr/share/nginx/html
 
-CMD ["npm", "start"]
+
+EXPOSE 80
+
+# Start nginx server
+CMD ["nginx", "-g", "daemon off;"]
