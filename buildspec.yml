@@ -1,29 +1,37 @@
 version: 0.2
 
 env:
-  shell: bash
   variables:
-    AWS_DEFAULT_REGION: "us-east-1"
+    BUILD_ENV: "production"
+    APP_NAME: "edulearn-app"
+    AWS_DEFAULT_REGION: "us-east-2"
+    S3_BUCKET: "edulearn-bucket"
 
 phases:
   install:
     runtime-versions:
       nodejs: 18
     commands:
-      - echo "Installing dependencies..."
-      - npm install
+      - echo "Starting build process..."
+
+  pre_build:
+    commands:
+      - echo "Validating project files..."
+      - ls -l
+      - test -f index.html || (echo "index.html not found!" && exit 1)
 
   build:
     commands:
-      - echo "Building frontend application..."
-      - npm run build
+      - echo "No build step required for static HTML site"
 
   post_build:
     commands:
-      - echo "Build completed successfully."
+      - echo "Uploading files to S3..."
+      - aws s3 sync . s3://$S3_BUCKET --delete
+      - echo "Deployment to S3 completed successfully."
 
 artifacts:
   files:
     - '**/*'
-  base-directory: build
-  discard-paths: yes
+  discard-paths: no
+``
