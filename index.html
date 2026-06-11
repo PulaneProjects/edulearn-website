@@ -1,184 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>EduLearn Platform</title>
- 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
         body {
             font-family: "Segoe UI", Arial, sans-serif;
-            margin: 0;
-            background: #f5f6fa;
+            background: #f5f7fb;
             color: #2c3e50;
+            display: flex;
+            flex-direction: column;
         }
- 
+
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
         header {
-            background: linear-gradient(90deg, #2c3e50, #3498db);
+            background: linear-gradient(135deg, #1f3b73, #3498db);
             color: white;
-            padding: 20px;
+            padding: 40px 20px;
             text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
         }
- 
+
+        header h1 {
+            margin: 0;
+            font-size: 2.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .top-banner {
+            background: #eaf4ff;
+            color: #1f3b73;
+            padding: 14px 20px;
+            text-align: center;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #d6e6f7;
+        }
+
         nav {
-            background: #34495e;
-            padding: 10px;
+            background: #243447;
+            padding: 14px 10px;
             text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
- 
+
         nav button {
-            margin: 5px;
-            padding: 10px 20px;
+            margin: 6px;
+            padding: 11px 20px;
             border: none;
             background: #1abc9c;
             color: white;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
- 
+
         nav button:hover {
             background: #16a085;
+            transform: translateY(-2px);
         }
- 
+
         .container {
-            padding: 20px;
-            max-width: 900px;
-            margin: auto;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 20px 40px;
         }
- 
-        .card {
+
+        .hero-box,
+        .content-card,
+        .loading-card {
             background: white;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 8px;
-            box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+            border-radius: 14px;
+            padding: 28px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
         }
- 
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 5px 0;
+
+        .hero-box h2,
+        .content-card h2,
+        .loading-card h2 {
+            margin-top: 0;
+            color: #1f3b73;
         }
- 
-        button.action {
-            background: #3498db;
-            margin-top: 10px;
+
+        .hero-box p,
+        .content-card p,
+        .loading-card p {
+            line-height: 1.7;
+            color: #4b5b6b;
         }
- 
-        button.delete {
-            background: #e74c3c;
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-top: 25px;
         }
- 
+
+        .stat-card {
+            background: #f8fbff;
+            border-left: 5px solid #3498db;
+            padding: 18px;
+            border-radius: 10px;
+        }
+
+        .stat-card h3 {
+            margin: 0;
+            color: #1f3b73;
+            font-size: 1.5rem;
+        }
+
+        .stat-card p {
+            margin: 8px 0 0;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            border-top: 4px solid #1abc9c;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+            color: #1f3b73;
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            margin-bottom: 0;
+            color: #5d6c7a;
+            line-height: 1.6;
+        }
+
+        .loading-card {
+            text-align: center;
+            padding: 60px 25px;
+        }
+
+        .loading-badge {
+            display: inline-block;
+            background: #eef6ff;
+            color: #1f3b73;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            border: 1px solid #cfe2ff;
+        }
+
+        .loading-message {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-top: 12px;
+        }
+
+        .page-label {
+            font-size: 0.95rem;
+            color: #7a8a99;
+            margin-top: 8px;
+        }
+
         footer {
             text-align: center;
-            padding: 15px;
-            background: #2c3e50;
+            padding: 18px;
+            background: #243447;
             color: white;
-            margin-top: 20px;
+            margin-top: auto;
+            font-size: 0.95rem;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            nav button {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .hero-box,
+            .content-card,
+            .loading-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
- 
 <body>
- 
-<header>
-    <h1>EduLearn Platform</h1>
-    <p>Manage your courses easily</p>
-</header>
- 
-<nav>
-    <button onclick="loadCourses()">View Courses</button>
-    <button onclick="showAddForm()">Add Course</button>
-</nav>
- 
-<div class="container" id="content">
-    <h2>Welcome to EduLearn</h2>
-    <p>Select an option above to begin.</p>
-</div>
- 
-<footer>
-    <p>EduLearn © 2026 | Cloud-based Learning Platform</p>
-</footer>
- 
-<script>
- 
-// Replace with your API Gateway Invoke URL
-const API_URL = "https://<api-id>.execute-api.us-east-2.amazonaws.com/prod/api/courses";
- 
-// Load Courses
-function loadCourses() {
-    fetch(API_URL)
-        .then(res => res.json())
-        .then(data => {
-            let html = "<h2>Available Courses</h2>";
- 
-            if (data.length === 0) {
-                html += "<p>No courses available.</p>";
-            }
- 
-            data.forEach(course => {
-                html += `
-                    <div class="card">
-                        <h3>${course.title}</h3>
-                        <p>${course.description}</p>
-                        <button class="delete" onclick="deleteCourse('${course.id}')">
-                            Delete
-                        </button>
+    <div class="page-wrapper">
+        <header>
+            <h1>EduLearn Platform</h1>
+            <p>Scalable cloud-based learning platform for students and instructors</p>
+        </header>
+
+        <div class="top-banner">
+            AWS Deployment: Static frontend on <strong>S3</strong> | Backend APIs via 
+            <strong>API Gateway + Fargate</strong> | Course data in <strong>RDS</strong>
+        </div>
+
+        <nav>
+            <button onclick="showHome()">Home</button>
+            <button onclick="showLoadingPage('View Courses')">View Courses</button>
+            <button onclick="showLoadingPage('Add Course')">Add Course</button>
+            <button onclick="showLoadingPage('Learning Progress')">Learning Progress</button>
+        </nav>
+
+        <main>
+            <div class="container" id="page-content">
+                <!-- Home content loads here -->
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 AWS TEAM1 ALL RIGHTS RESERVED</p>
+        </footer>
+    </div>
+
+    <script>
+        function showHome() {
+            document.getElementById("page-content").innerHTML = `
+                <div class="hero-box">
+                    <h2>Welcome to EduLearn</h2>
+                    <p>
+                        EduLearn is a modern online learning platform designed to help students enroll in courses,
+                        access learning content, monitor progress, and interact with instructors through a scalable,
+                        secure, and cloud-based AWS architecture.
+                    </p>
+
+                    <div class="stats">
+                        <div class="stat-card">
+                            <h3>24/7</h3>
+                            <p>Cloud availability for learners</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>AWS</h3>
+                            <p>Hosted on reliable cloud infrastructure</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Secure</h3>
+                            <p>Built with scalable and secure deployment practices</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Flexible</h3>
+                            <p>Designed for students and instructors</p>
+                        </div>
                     </div>
-                `;
-            });
- 
-            document.getElementById("content").innerHTML = html;
-        })
-        .catch(() => {
-            document.getElementById("content").innerHTML =
-                "<p>Error loading courses.</p>";
-        });
-}
- 
-//  Show Add Form
-function showAddForm() {
-    document.getElementById("content").innerHTML = `
-        <h2>Add New Course</h2>
-        <input id="title" placeholder="Course Title">
-        <input id="desc" placeholder="Course Description">
-        <br>
-        <button class="action" onclick="addCourse()">Add Course</button>
-    `;
-}
- 
-// Add Course
-function addCourse() {
-    const title = document.getElementById("title").value;
-    const desc = document.getElementById("desc").value;
- 
-    fetch(API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            title: title,
-            description: desc
-        })
-    })
-    .then(() => {
-        loadCourses();
-    });
-}
- 
-// Delete Course
-function deleteCourse(id) {
-    fetch(API_URL + "/" + id, {
-        method: "DELETE"
-    })
-    .then(() => {
-        loadCourses();
-    });
-}
- 
-</script>
- 
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>Course Access</h3>
+                        <p>Students can browse courses, enroll, and access learning materials anytime.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Progress Tracking</h3>
+                        <p>Monitor educational progress and support structured learning outcomes.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Scalable Architecture</h3>
+                        <p>Powered by AWS services to support performance, growth, and reliability.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Cloud-Native Deployment</h3>
+                        <p>Static frontend hosting, API management, and backend services built for the cloud.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showLoadingPage(pageName) {
+            document.getElementById("page-content").innerHTML = `
+                <div class="loading-card">
+                    <div class="loading-badge">${pageName}</div>
+                    <h2>Page Under Preparation</h2>
+                    <p class="loading-message">WEBSITE LOADING , COME BACKE LATER FOR THE GREAT STUFF:):)</p>
+                    <p class="page-label">This section is currently being prepared and will be available soon.</p>
+                </div>
+            `;
+        }
+
+        // Load Home page by default
+        showHome();
+    </script>
 </body>
 </html>
