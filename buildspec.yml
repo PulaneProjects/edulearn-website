@@ -1,16 +1,7 @@
 version: 0.2
 
-env:
-  variables:
-    BUILD_ENV: "production"
-    APP_NAME: "edulearn-app"
-    AWS_DEFAULT_REGION: "us-east-2"
-    S3_BUCKET: "edulearn-bucket"
-
 phases:
   install:
-    runtime-versions:
-      nodejs: 18
     commands:
       - echo "Starting build process..."
 
@@ -26,12 +17,9 @@ phases:
 
   post_build:
     commands:
-      - echo "Uploading files to S3..."
-      - aws s3 sync . s3://$S3_BUCKET --delete
-      - echo "Deployment to S3 completed successfully."
+      - echo "Build completed successfully"
 
 artifacts:
   files:
     - '**/*'
-  discard-paths: no
-``
+  discard-paths: no 
