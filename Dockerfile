@@ -1,13 +1,5 @@
-FROM nginx:alpine
-
-
-RUN rm -rf /usr/share/nginx/html/*
-
-
-COPY . /usr/share/nginx/html
-
-
-EXPOSE 80
-
-# Start nginx server
-CMD ["nginx", "-g", "daemon off;"]
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY app.jar /app/app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app/app.jar"] 
